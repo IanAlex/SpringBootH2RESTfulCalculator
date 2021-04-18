@@ -1,0 +1,84 @@
+<html>
+<body>
+
+X-Value:&nbsp <input type="number" defaultValue="0" name="X" id="xValID"  /> &nbsp&nbsp
+Y-Value:&nbsp <input type="number" defaultValue="0" name="Y" id="yValID"  />
+
+</br>
+<button onclick="do_Calcs()">Calculate</button>
+
+</br>
+</br>
+<label for="output">The Result Is: </label>
+<input type="textbox" name="output" id="output"/>
+
+<script>
+function do_Calcs() {
+ document.getElementById('output').value= '';
+ var xVal = document.getElementById('xValID').value;
+ var yVal = document.getElementById('yValID').value;
+ if (xVal == parseInt(xVal, 10) && yVal == parseInt(yVal, 10)) {
+    var url = 'http://localhost:8080/math/sum/'.concat(xVal).concat('/').concat(yVal);
+    //alert(url);
+    var Http = new XMLHttpRequest();
+    Http.onreadystatechange = function() {
+       if(Http.readyState==4 && Http.status==200) {
+          var getText = 'getASum('.concat(xVal).concat(',').concat(yVal).concat(')');
+          var message = 'For '.concat(getText).concat(' insert into H2 database: ').concat(Http.responseText);
+          alert(message);
+          doSecond(Http.responseText);
+       }
+    }
+    Http.open("GET", url, true);
+    Http.send();
+    
+  }
+}
+
+
+function doSecond(jsonText) {
+   const obj = JSON.parse(jsonText);
+   const addResult = obj.result;
+   var url = 'http://localhost:8080/math/product/'.concat(addResult);
+
+   //alert(url);
+    var Http = new XMLHttpRequest();
+    Http.onreadystatechange = function() {
+       if(Http.readyState==4 && Http.status==200) {
+          const getText = 'getAProduct('.concat(addResult).concat(')');
+          const message = 'For '.concat(getText).concat(' insert into H2 database: ').concat(Http.responseText);
+          alert(message);
+          doFinal(Http.responseText);
+       }
+    }
+    Http.open("GET", url, true);
+    Http.send();
+}
+
+
+function doFinal(jsonText) {
+   const obj = JSON.parse(jsonText);
+   const prodResult = obj.result;
+   var url = 'http://localhost:8080/math/power/'.concat(prodResult);
+   //alert(url);
+    var Http = new XMLHttpRequest();
+    Http.onreadystatechange = function() {
+       if(Http.readyState==4 && Http.status==200) {
+          const getText = 'getAPower('.concat(prodResult).concat(')');
+          const message = 'For '.concat(getText).concat(' insert into H2 database: ').concat(Http.responseText);
+          alert(message);
+          const objA = JSON.parse(Http.responseText);
+          var finalResult = objA.result;
+          document.getElementById('output').value= finalResult;
+       }
+    }
+    Http.open("GET", url, true);
+    Http.send();
+
+}
+
+
+</script>
+
+</body>
+</html>
