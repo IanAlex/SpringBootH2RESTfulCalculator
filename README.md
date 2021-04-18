@@ -3,8 +3,11 @@
 This application is written in Java 11 with Spring Boot so that it can be run as a Jar with embedded server.   The application uses an H2 database.
 
 (i) the RESTful endpoints are invoked by using resource URIs as follows:
+
       (a) http://localhost:8080/math/sum/x/y to invoke MathExpressionController.getASum(x,y) endpoint which does calculation x + y and stores record in H2 MATHEXPRESSION table and returns the MathExpression object in JSON form representing the record.
+      
       (b) http://localhost:8080/math/product/a to invoke MathExpressionController.getAProduct(a) endpoint which does calculation a * 2 and stores record in H2 MATHEXPRESSION table and returns the MathExpression object in JSON form representing the record
+      
       (c) http://localhost:8080/math/power/s to invoke MathExpressionController.getAPower(s) endpoint which does the calculation s * s and stores record in H2 MATHEXPRESSION table and returns the MathExpression object in JSON form representing the record
       
 (ii) the endpoint methods in MathExpressionController invoke service methods in MathExpressionService class which in turn uses the MathExpressionRepository (implementing Spring's JPARespository) for H2 MATHEXPRESSION table insertions
@@ -12,7 +15,7 @@ This application is written in Java 11 with Spring Boot so that it can be run as
 (iii) the "web application" is an HTML file math.html (in the downloaded Git project) which uses JavaScript with AJAX to sequentially call the endpoints in  (a),(b),(c) of (i) above with the arguments passed in the results of the previous stage.   When clicking on the "Calculate" button then do_Calcs() is invoked if there are valid X & Y values and this calls getASum(x,y) and with the result from that calls getAProduct(a) and with the result from that calls getAPower(s).   The Result is passed to the HTML via the JavaScript under the field labeled: "The Result Is".
 		   
 
-#Steps to Build and Run the application
+# Steps to Build and Run the application
 
 (assumes Maven and Java 11 is installed)
 
@@ -24,7 +27,7 @@ This application is written in Java 11 with Spring Boot so that it can be run as
    
 (iii) Test the application as below
 
-#Testing RESTful API
+# Testing RESTful API
  
  This can be done via Curl or more easily in the browser by trying the following commands:
  
@@ -46,7 +49,7 @@ This application is written in Java 11 with Spring Boot so that it can be run as
  
  
  
-#Testing the "Web Application" which access the RESTful API:
+# Testing the "Web Application" which access the RESTful API:
  
  (i) open up math.html (found in the downloaded Maven project) in a browser:
  
